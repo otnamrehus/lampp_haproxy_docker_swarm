@@ -1,0 +1,107 @@
+version: "3.8"
+
+services:
+  webserver1:
+    image: php:7.4-apache
+    hostname: webserver1
+    networks:
+      - swarm
+    ports:
+      - "7001:80"
+      - "7021:22"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./web1:/var/www/html
+    depends_on:
+      - database
+
+  webserver2:
+    image: php:7.4-apache
+    hostname: webserver2
+    networks:
+      - swarm
+    ports:
+      - "7002:80"
+      - "7022:22"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - database
+
+  webserver3:
+    image: php:7.4-apache
+    hostname: webserver3
+    networks:
+      - swarm
+    ports:
+      - "7003:80"
+      - "7023:22"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - database
+
+  database:
+    image: mariadb
+    hostname: database
+    networks:
+      - swarm
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3306:3306"
+    environment:
+     #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5
+    hostname: phpmyadmin
+    networks:
+      - swarm
+    ports:
+      - "7007:80"
+    environment:
+      PMA_HOST: database
+     #PMA_USER: user
+     #PMA_ROOT_PASSWORD: password
+     #PMA_PORT: 3306
+     #MYSQL_DATABASE: swarm
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    depends_on:
+      - database
+
+  haproxy:
+    image: haproxy:latest
+    hostname: haproxy
+    networks:
+      - swarm
+    ports:
+      - "7000:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - webserver1
+      - webserver2
+      - webserver3
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy/haproxy.cfg:ro
+
+networks:
+  swarm:
+    driver: overlay
