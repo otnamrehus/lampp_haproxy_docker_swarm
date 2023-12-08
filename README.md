@@ -1,2 +1,2 @@
-# lampp_haproxy_docker_swarm
+# Load Balancing pada LAMPP dengan Docker Swarm 
 Lampp + Load Balancing menggunakan Docker Swarm
