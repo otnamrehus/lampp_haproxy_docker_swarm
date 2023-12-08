@@ -31,11 +31,11 @@ echo " "
 
 read swarm;
 case $swarm in
-  s) docker swarm init && ./server.sh;;
-  d) docker stack deploy -c docker-compose.yaml lampp_swarm && ./server.sh;;
-  c) docker stack ps lampp_swarm && ./server.sh;;
-  ss) docker service ls && ./server.sh;;
-  r) docker stack rm lampp_swarm && ./server.sh;;
-  rr) docker swarm leave --force && ./server.sh;;
+  s) docker swarm init && chmod +x server.sh && ./server.sh;;
+  d) docker stack deploy -c docker-compose.yaml lampp_swarm && chmod +x server.sh && ./server.sh;;
+  c) docker stack ps lampp_swarm && chmod +x server.sh && ./server.sh;;
+  ss) docker service ls && chmod +x server.sh && ./server.sh;;
+  r) docker stack rm lampp_swarm && chmod +x server.sh && ./server.sh;;
+  rr) docker swarm leave --force && chmod +x server.sh && ./server.sh;;
   *) clear && echo "Keluar dari Pilihan Service Docker Swarm";;
 esac
