@@ -4,7 +4,7 @@ Lampp (PHP7.4-Apache, Mariadb dam PHPMyAdmin) dengan HAProxy yang dijalankan pad
 # JALANKAN #
 apt update -y && \
 apt install git && \
-https://github.com/otnamrehus/lampp_haproxy_docker_swarm.git && \
+git clone https://github.com/otnamrehus/lampp_haproxy_docker_swarm.git && \
 cd lampp_haproxy_docker_swarm && \
 chmod +x server.sh && \
 ./server.sh
