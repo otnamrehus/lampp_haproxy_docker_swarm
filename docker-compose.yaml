@@ -14,7 +14,7 @@ services:
       restart_policy:
         condition: on-failure
     volumes:
-      - ./web1:/var/www/html
+      - ./web:/var/www/html
     depends_on:
       - database
 
@@ -30,6 +30,9 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+    volumes:
+      - ./web:/var/www/html
+    command: bash -c "while true; do rsync -avz /var/www/html/ webserver1:/var/www/html/; sleep 10; done"
     depends_on:
       - database
 
@@ -45,6 +48,9 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+    volumes:
+      - ./web:/var/www/html
+    command: bash -c "while true; do rsync -avz /var/www/html/ webserver1:/var/www/html/; sleep 10; done"
     depends_on:
       - database
 
