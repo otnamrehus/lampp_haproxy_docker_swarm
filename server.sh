@@ -25,6 +25,9 @@ echo "2. Join Node: "
 echo "   docker swarm join --token <TOKEN> <IP>:<PORT>    "
 echo "-------------------------------------------------------------------"
 echo " "
+echo "Cek Statistik HAproxy :"
+echo "http://ipaddress:7000/haproxy?stats"
+echo " "
 
 read swarm;
 case $swarm in
